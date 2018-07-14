@@ -79,7 +79,7 @@ For different inputs use the following command syntax:
 
 
 # Overview of Methodology
-Each row of the input file is captured into a struct (`PatientEntry`) which is then collected in a vector. To save on space the prescribers' name was concatenated together (last name + first name) and then hashed with the DJB2 hash function in **`util.h`**.
+Each row of the input file is captured into a struct (`PatientEntry`) which is then collected in a vector. To save on space the prescribers' name was concatenated together (last name + first name) and then hashed with the DJB2 hash function in **`util.h`**. The description provided of the input data states that a prescriber is identified by id, last name, and first name. However, the stated desire for output was that lines with the same first and last name were considered the same person. As a result the id field is insufficient to determine uniqueness as based on subset inspection there were entries with identical names but different ids, and thus the full name is neededed to determine uniqueness.
 
 ![Reading Input File](images/fileread.png)
 
