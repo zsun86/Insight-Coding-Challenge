@@ -4,23 +4,23 @@ Submission for Insight Data Engineering Pharmacy Counting Coding Challenge
 Coder: Zachary Sun
 
 # Table of Contents
-1. [Problem as provided by Insight Data Engineering](README.md#problem-as-provided-by-insight-data-engineering)
-2. [Input Dataset as specified by Insight Data Engineering](README.md#input-dataset-as-specified-by-insight-data-engineering)
-3. [Output as specified by Insight Data Engineering](README.md#output-as-specified-by-insight-data-engineering)
+1. [Problem](README.md#problem)
+2. [Input Dataset](README.md#input-dataset)
+3. [Output](README.md#output)
 4. [How to Compile and Run the Program](README.md#how-to-compile-and-run-the-program)
 5. [Individual Folder Breakdown](README.md#individual-folder-breakdown)
 6. [Overview of Methodology](README.md#overview-of-methodology)
 
 
-# Problem as provided by Insight Data Engineering
+# Problem
 
 Imagine you are a data engineer working for an online pharmacy. You are asked to generate a list of all drugs, the total number of UNIQUE individuals who prescribed the medication, and the total drug cost, which must be listed in descending order based on the total drug cost and if there is a tie, drug name. 
 
-# Input Dataset as specified by Insight Data Engineering
+# Input Dataset
 
 The original dataset was obtained from the Centers for Medicare & Medicaid Services but has been cleaned and simplified to match the scope of the coding challenge. It provides information on prescription drugs prescribed by individual physicians and other health care providers. The dataset identifies prescribers by their ID, last name, and first name.  It also describes the specific prescriptions that were dispensed at their direction, listed by drug name and the cost of the medication. 
 
-# Output as specified by Insight Data Engineering
+# Output 
 
 The program creates a comma seperated output text file specified by a second input parameter.
 
@@ -83,7 +83,7 @@ Each row of the input file is captured into a struct (`PatientEntry`) which is t
 
 ![Reading Input File](images/fileread.png)
 
-It should be noted as with any hash approach this has potential for collision but for the scope of this project I assume the risks are low enough and make note that an alternative approach would be to assign each prescriber a unique id through a hash lookup method that handles collisions and store that id instead. The space issue has higher ramifications as part of the uniqueness criteria. The collision impact experimentally looks to be very low. On the 24 million record data set only 327 prescriber entries were not correctly counted as unique due to collision. Of the 2,749 drugs prescribed in the dataset, 151 of them had an incorrect unique prescriber count due to collisions. For any given drug, the highest error rate that it ever reached to was 0.016% with 1 missing prescriber out of a total of 6,115. The largest number of missing prescriber count for a given drug was 11 out of a total of 274,312 prescribers.
+It should be noted as with any hash approach this has potential for collision but for the scope of this project I assume the risks are low enough and make note that an alternative approach would be to assign each prescriber a unique id through a hash lookup method that handles collisions and store that id instead. The space issue has higher ramifications as part of the uniqueness criteria. The collision impact experimentally looks to be very low. On the 24 million record data set only 327 prescribers were not counted due to collision. Of the 2,749 drugs prescribed in the dataset, 151 of them had an incorrect unique prescriber count due to collisions. For any given drug, the highest error rate that it ever grew to was 0.016% with 1 missing prescriber out of a total of 6,115. The largest number of missing prescriber count for a given drug was 11 out of a total of 274,312 prescribers.
 
 Once the file is read it processes each entry by using a modular hash of the drug name to retrieve a `DrugEntry` structure that contains all the information necessary for one row of the ouptut file.
 ![Drug Entry Lookup](images/drug_entry_lookup.png)
