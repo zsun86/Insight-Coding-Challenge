@@ -20,11 +20,7 @@ class patient_data {
 		patient_data() {}
 		
 		void addEntry(int id, unsigned int pname_hash, string dname, double dcost) {
-			PatientEntry ent;
-			ent.id = id;
-			ent.pname_hash = pname_hash;
-			ent.dname = dname;
-			ent.dcost = dcost;
+			PatientEntry ent(id, pname_hash, dname, dcost);
 			
 			patient_entries.push_back(ent);
 			//patient_entries.emplace_back(id, pname_hash, dname, dcost);

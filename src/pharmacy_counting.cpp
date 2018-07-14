@@ -23,6 +23,7 @@ void peekGetField(stringstream &ss, string &field) {
 	}
 }
 
+/* Parse a given line into individual field components, concatenates and hashes the prescriber name */
 void parseLine(string line, PatientEntry &patient) {
 	string field, lname, fname;
 	stringstream ss(line);
@@ -46,19 +47,21 @@ void parseLine(string line, PatientEntry &patient) {
 	peekGetField(ss, field); // To advance the sstream extraction point.
 }
 
+/* Reads in input file */
 void parse_ifile(ifstream &ifs, patient_data &if_data) {
 	PatientEntry p_ent;
 	string line;
 	
 	getline(ifs, line);	// Assume first line is header names
-	while (getline(ifs, line)) {
-		parseLine(line, p_ent);
+	while (getline(ifs, line)) { // Read in one line
+		parseLine(line, p_ent); // Parses line into individual field
 		if (p_ent.id > 0) 
 			if_data.addEntry(p_ent.id, p_ent.pname_hash, p_ent.dname, p_ent.dcost);
 	}
 	cout << "Found " << if_data.getNumEntries() << " entries." << endl;
 }
 
+/* Processes each line of read in input lines and stores the accumulated drug info while maintaining an unsorted list of drug names */
 void process_data(patient_data &if_data, drug_data &of_data) {
 	int num_patient_entries = if_data.getNumEntries();
 	int i;
@@ -75,6 +78,7 @@ void process_data(patient_data &if_data, drug_data &of_data) {
 	cout << "\nFinished processing input data" << endl;
 }
 
+/* Writing output file as per instructed format */
 void write_ofile(ofstream &ofs, drug_data &of_data) {
 	DrugEntry ent;
 	int num_drugs = of_data.getNumDrugs();
@@ -89,7 +93,7 @@ void write_ofile(ofstream &ofs, drug_data &of_data) {
 	
 }
 
-
+/* main function */
 int main(int argc, char **argv) {
 	char* fname;
 	char* ofname;
